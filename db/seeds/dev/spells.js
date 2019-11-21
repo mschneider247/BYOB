@@ -1,11 +1,29 @@
-const spells = require('../../../spellsData');
+const spellsData = require('../../../spellsData');
 
 const createSpell = (knex, spell) => {
   return knex('spells').insert({
     name: spell.name,
     level: spell.level,
-    description: spell.description,
+    description: spell.description
+  }, 'id')
+  .then(spellId => {
+    let classPromises = [];
+    
+    spell.classes.forEach(individual => {
+      classPromises.push(
+        createClasses(knex, {
+          name: individual,
+          spell_id: spellId[0]
+        })
+      )
+    });
+
+    return Promise.all(classPromises)
   })
+};
+
+const createClasses = (knex, individual) => {
+  return knex('classes').insert(individual);
 }
 
 exports.seed = function(knex) {
@@ -14,7 +32,7 @@ exports.seed = function(knex) {
     .then(() => {
       let spellPromises = [];
 
-      spells.forEach(spell => {
+      spellsData.forEach(spell => {
         spellPromises.push(createSpell(knex, spell));
       });
 
