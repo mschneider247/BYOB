@@ -4,7 +4,7 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/spells',
+    connection: 'postgres://localhost/spellsandclasses',
     useNullAsDefault: true,
     migrations: {
       directory: './db/migrations'

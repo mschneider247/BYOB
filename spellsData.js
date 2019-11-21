@@ -1,9 +1,3 @@
-// Wizard :: 1
-// Cleric :: 2
-// Druid :: 3
-// Ranger :: 4
-
-
 let spells = [{
     name: "Vinegar Arrow",
     level: 2,
@@ -55,7 +49,7 @@ let spells = [{
   {
     name: "Ass Confetti",
     level: 1,
-    description: "Fire a short range burst of disorienting glitter",
+    description: "Fire a short range burst, no more than 3 feet, of disorienting glitter",
     classes: ['Sorcerer', 'Wizard']
   },
   {
@@ -68,7 +62,7 @@ let spells = [{
     name: "Command",
     level: 1,
     description: "You speak a one word command to a creature you can see",
-    class: ['Cleric', 'Paladin']
+    classes: ['Cleric', 'Paladin']
   },
   {
     name: "One with Nature",
