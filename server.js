@@ -59,6 +59,21 @@ app.get('/api/v1/classes/:id', (request, response) => {
     })
 });
 
+app.post('/api/v1/spells', (request, response) => {
+  let spell = request.body;
+  console.log('This is the spell request body', spell)
+  database('spells')
+    .insert(spells, 'id')
+    .then(spellsId => {
+      response.status(201).json({ id: spellId[0], ...spell });
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+})
+
+
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
 })
