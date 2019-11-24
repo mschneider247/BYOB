@@ -94,6 +94,19 @@ app.post('/api/v1/classes', (request, response) => {
     });
 });
 
+app.delete('/api/v1/classes/:name', (request, response) => {
+  const { name } = request.params;
+  database('classes').where({ name: name})
+    .del()
+    .then(responseValue => {
+      if(!responseValue) {
+        return response.status(404).json(`Class ${name} not found.`)
+      }
+      return response.status(200).json(`Character class: ${name} DELETED`)
+    })
+    .catch(err => {response.status(500).json(err)})
+})
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
 })
