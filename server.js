@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+app.use(cors());
+app.use(express.json());
 app.set('port', process.env.PORT || 3000);
 
 app.get('/api/v1/spells', (request, response) => {
@@ -23,9 +26,7 @@ app.get('/api/v1/classes', (request, response) => {
       response.status(200).json(classes);
     })
     .catch((error) => {
-      response.status(500).json({
-        error
-      })
+      response.status(500).json({ error })
     });
 });
 
@@ -60,19 +61,38 @@ app.get('/api/v1/classes/:id', (request, response) => {
 });
 
 app.post('/api/v1/spells', (request, response) => {
-  let spell = request.body;
-  console.log('This is the spell request body', spell)
-  database('spells')
-    .insert(spells, 'id')
-    .then(spellsId => {
-      response.status(201).json({ id: spellId[0], ...spell });
+  const newSpell = request.body;
+  console.log("spell request.body", newSpell)
+  for (let requiredParameter of ['name', 'level', 'description', 'classes']) {
+    if (!newSpell[requiredParameter]) {
+      return response.status(422).send({ error: `Unexpected Format, missing ${requiredParameter}`})
+    }
+  }
+  database('spells').insert(newSpell, 'name')
+    .then(spellName => {
+      response.status(201).json({ name: spellName[0] });
     })
     .catch(error => {
       response.status(500).json({ error });
     });
-})
+});
 
-
+app.post('/api/v1/classes', (request, response) => {
+  const characterClass = request.body;
+  console.log("characterClass request.body", characterClass)
+  for (let requiredParameter of ['name']) {
+    if (!characterClass[requiredParameter]) {
+      return response.status(422).send({ error: `Unexpected Format, missing ${requiredParameter}`})
+    }
+  }
+  database('classes').insert(characterClass, 'name')
+    .then(character => {
+      response.status(201).json({ name: character[0] });
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
 
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
