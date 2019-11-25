@@ -81,9 +81,22 @@ app.post('/api/v1/spells', (request, response) => {
     });
 });
 
+app.patch('/api/v1/classes/:id', (request, response) => {
+  const { id } = request.params;
+  const { name } = request.body
+  database('classes')
+    .where({ id: id })
+    .update({ name: name })
+    .then(characterClass => {
+      if (characterClass[0]) {
+        response.status(404).json({ error: `No character class found with id ${id}`})
+      }
+      response.status(202).json({ message: 'Class renamed!'})
+    });
+});
+
 app.post('/api/v1/classes', (request, response) => {
   const characterClass = request.body;
-  console.log("characterClass request.body", characterClass)
   for (let requiredParameter of ['name']) {
     if (!characterClass[requiredParameter]) {
       return response.status(422).send({ error: `Unexpected Format, missing ${requiredParameter}`})
