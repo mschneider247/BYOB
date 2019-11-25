@@ -10,6 +10,10 @@ app.use(cors());
 app.use(express.json());
 app.set('port', process.env.PORT || 3000);
 
+app.get('/', (request, response) => {
+  response.send('Welcome to Spells and Classes!');
+});
+
 app.get('/api/v1/spells', (request, response) => {
   database('spells').select()
   .then((spells) => {
