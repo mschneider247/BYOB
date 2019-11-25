@@ -1,6 +1,7 @@
 # Spells and Classes API
 ## by: Michael Schneider
 [Michael Schneider](https://github.com/mschneider247)
+[Project Board](https://github.com/mschneider247/BYOB/projects/1)
 
 ### Summary:
 [live site](https://spells-classes-api.herokuapp.com/).
