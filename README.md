@@ -12,7 +12,7 @@ An API for keeping track of spells!  Each spell has a name, description, level a
 This application utilizes: Knex, Express, Nodemon, PSQL, Postico and JavaScript for implementation 
 
 ### Use of this api
- Developers can access 6 different endpoints within the API
+ Developers can access 8 different endpoints within the API
 
 <details>
 
