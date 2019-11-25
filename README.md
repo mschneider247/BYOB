@@ -6,7 +6,7 @@
 
 ### Summary:
 [live site](https://spells-classes-api.herokuapp.com/).
-An API for keeping track of spells!  Each spell has a name, description, level and the classes that can cast the spell. Classes are tracked as footnotes and come with the spell_id they are linked to. Developers have the ability to add spells, add/delete classes, and search all spells/classes and individual spells/classes.
+An API for keeping track of spells!  Each spell has a name, description, level and the classes that can cast the spell. Classes are tracked as footnotes and come with the spell_id they are linked to. Developers have the ability to add spells, add/delete/rename classes, and search all spells/classes and individual spells/classes.
 
 ### Tech Stack:
 This application utilizes: Knex, Express, Nodemon, PSQL, Postico and JavaScript for implementation 
