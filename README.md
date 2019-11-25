@@ -200,3 +200,32 @@ This application utilizes: Knex, Express, Nodemon, PSQL, Postico and JavaScript 
   ```
 
 </details>
+
+---
+
+<details>
+  <summary><code>PATCH</code> a character class name by selecting their id</summary>
+  
+  example request : `PATCH` `/api/v1/classes/75`
+  body.json()
+
+  ```javascript
+
+{
+	"name": "Nerf Herder"
+}
+
+  ```
+
+  <br>
+  example response: 
+
+  ```javascript
+
+{
+    "message": "Class renamed!"
+}
+
+  ```
+
+</details>

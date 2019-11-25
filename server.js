@@ -81,6 +81,35 @@ app.post('/api/v1/spells', (request, response) => {
     });
 });
 
+app.post('/api/v1/classes', (request, response) => {
+  const characterClass = request.body;
+  for (let requiredParameter of ['name']) {
+    if (!characterClass[requiredParameter]) {
+      return response.status(422).send({ error: `Unexpected Format, missing ${requiredParameter}`})
+    }
+  }
+  database('classes').insert(characterClass, 'name')
+  .then(character => {
+    response.status(201).json({ name: character[0] });
+  })
+  .catch(error => {
+    response.status(500).json({ error });
+  });
+});
+
+app.delete('/api/v1/classes/:name', (request, response) => {
+  const { name } = request.params;
+  database('classes').where({ name: name})
+  .del()
+  .then(responseValue => {
+    if(!responseValue) {
+      return response.status(404).json(`Class ${name} not found.`)
+      }
+      return response.status(200).json(`Character class: ${name} DELETED`)
+    })
+    .catch(err => {response.status(500).json(err)})
+})
+
 app.patch('/api/v1/classes/:id', (request, response) => {
   const { id } = request.params;
   const { name } = request.body
@@ -94,35 +123,6 @@ app.patch('/api/v1/classes/:id', (request, response) => {
       response.status(202).json({ message: 'Class renamed!'})
     });
 });
-
-app.post('/api/v1/classes', (request, response) => {
-  const characterClass = request.body;
-  for (let requiredParameter of ['name']) {
-    if (!characterClass[requiredParameter]) {
-      return response.status(422).send({ error: `Unexpected Format, missing ${requiredParameter}`})
-    }
-  }
-  database('classes').insert(characterClass, 'name')
-    .then(character => {
-      response.status(201).json({ name: character[0] });
-    })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
-});
-
-app.delete('/api/v1/classes/:name', (request, response) => {
-  const { name } = request.params;
-  database('classes').where({ name: name})
-    .del()
-    .then(responseValue => {
-      if(!responseValue) {
-        return response.status(404).json(`Class ${name} not found.`)
-      }
-      return response.status(200).json(`Character class: ${name} DELETED`)
-    })
-    .catch(err => {response.status(500).json(err)})
-})
 
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}`)
